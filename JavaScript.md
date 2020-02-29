@@ -41,3 +41,99 @@ e.target && e.target.matches("a.classA")
 4. 如果 Constructor 内没有 return, 则 return this.
 
 - https://codeburst.io/javascripts-new-keyword-explained-as-simply-as-possible-fec0d87b2741
+
+## Explain how prototypal inheritance works
+
+原型继承。所有对象都有一个 prototype 属性，指向它的原型对象。当试图访问一个对象的属性时，如果没有在该对象上找到，它还会搜寻该对象的原型，以及该对象的原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。
+
+Constructor:
+
+```js
+function Foo(who) {
+	this.me = who;
+}
+
+Foo.prototype.identify = function() {
+	return "I am " + this.me;
+};
+
+function Bar(who) {
+	Foo.call(this, "Bar:" + who);
+}
+
+Bar.prototype = Object.create(Foo.prototype);
+Bar.prototype.constructor = Bar;  // "fixes" the delegated `constructor` reference
+
+Bar.prototype.speak = function() {
+	console.log("Hello, " + this.identify() + ".");
+};
+
+const b1 = new Bar("b1");
+
+b1.speak(); // "Hello, I am Bar:b1."
+
+// some type introspection
+b1 instanceof Bar; // true
+b1 instanceof Foo; // true
+Bar.prototype instanceof Foo; // true
+Bar.prototype.isPrototypeOf(b1); // true
+Foo.prototype.isPrototypeOf(b1); // true
+Foo.prototype.isPrototypeOf(Bar.prototype); // true
+Object.getPrototypeOf(b1) === Bar.prototype; // true
+Object.getPrototypeOf(Bar.prototype) === Foo.prototype; // true
+```
+
+OLOO (objects linked to other objects):
+
+```js
+const Foo = {
+	Foo(who) {
+		this.me = who;
+		return this;
+	},
+	identify() {
+		return "I am " + this.me;
+	}
+};
+
+const Bar = Object.create(Foo);
+
+Bar.Bar = function(who) {
+	// "constructors" (aka "initializers") are now in the `[[Prototype]]` chain,
+	// so `this.Foo(..)` works easily w/o any problems of relative-polymorphism
+	// or .call(this,..) awkwardness of the implicit "mixin" pattern
+	this.Foo("Bar:" + who);
+	return this;
+};
+
+Bar.speak = function() {
+	console.log("Hello, " + this.identify() + ".");
+};
+
+const b1 = Object.create(Bar).Bar("b1");
+
+b1.speak(); // "Hello, I am Bar:b1."
+
+// some type introspection
+Bar.isPrototypeOf(b1); // true
+Foo.isPrototypeOf(b1); // true
+Foo.isPrototypeOf(Bar); // true
+Object.getPrototypeOf(b1) === Bar; // true
+Object.getPrototypeOf(Bar) === Foo; // true
+```
+
+Object.create:
+
+```js
+if (typeof Object.create !== "function") {
+  Object.create = function(parent) {
+    function Tmp() {}
+    Tmp.prototype = parent;
+    return new Tmp();
+  };
+}
+```
+
+- https://davidwalsh.name/javascript-objects
+- https://stackoverflow.com/questions/29788181/kyle-simpsons-oloo-pattern-vs-prototype-design-pattern
+- https://gist.github.com/getify/5572383
