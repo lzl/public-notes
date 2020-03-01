@@ -51,6 +51,7 @@ Constructor:
 ```js
 function Foo(who) {
 	this.me = who;
+	this.me = who; // con: 无法保护属性不被更改
 }
 
 Foo.prototype.identify = function() {
@@ -137,3 +138,22 @@ if (typeof Object.create !== "function") {
 - https://davidwalsh.name/javascript-objects
 - https://stackoverflow.com/questions/29788181/kyle-simpsons-oloo-pattern-vs-prototype-design-pattern
 - https://gist.github.com/getify/5572383
+- https://medium.com/javascript-scene/javascript-factory-functions-vs-constructor-functions-vs-classes-2f22ceddf33e
+
+## What is functional programming
+
+Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
+
+Pure functions. Given the same inputs, always returns the same output, and has no side-effects.
+
+Function composition. `f(g(x))`
+
+Avoid shared state. Any variable, object, or memory space that exists in a shared scope.
+
+Avoid mutating state. Any object which can be modified after it’s created. Use `Immer`.
+
+Avoid side effects. Any application state change that is observable outside the called function other than its return value. Modifying any external variable or object property. Logging to the console. Writing to the screen. Writing to a file. Writing to the network. Triggering any external process. Calling any other functions with side-effects. Random number generation.
+
+- https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0
+- https://www.freecodecamp.org/news/functional-programming-principles-in-javascript-1b8fc6c3563f/
+- https://hackernoon.com/two-years-of-functional-programming-in-javascript-lessons-learned-1851667c726
