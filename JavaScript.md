@@ -351,3 +351,15 @@ Generally, embedding a cross-origin resource is permitted, while reading a cross
 
 - https://web.dev/same-origin-policy/
 - https://web.dev/cross-origin-resource-sharing/
+
+## What is 'use strict'?
+
+'use strict' 用于对整个脚本或单个函数启用严格模式。
+
+- https://lucybain.com/blog/2014/js-use-strict/
+
+## What is event loop? What is the difference between call stack and task queue?
+
+事件循环是一个单线程循环，用于监视调用堆栈并检查是否有工作即将在任务队列中完成。如果调用堆栈为空并且任务队列中有回调函数，则将回调函数出队并推送到调用堆栈中执行。
+
+- https://2014.jsconf.eu/speakers/philip-roberts-what-the-heck-is-the-event-loop-anyway.html
