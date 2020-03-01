@@ -5,8 +5,8 @@
 好处：减少内存占用；子元素变动时无需解绑或绑定。
 
 ```js
-e.target && e.target.nodeName == "LI"
-e.target && e.target.matches("a.classA")
+e.target && e.target.nodeName == "LI";
+e.target && e.target.matches("a.classA");
 ```
 
 - https://davidwalsh.name/event-delegate
@@ -36,7 +36,7 @@ e.target && e.target.matches("a.classA")
 ## Explain how 'new' keyword works in JavaScript
 
 1. this = {}; 创建一个全新对象，将其绑定到 this 上。
-2. this.__proto__ = Constructor.prototype; this.constructor = Constructor;
+2. this.**proto** = Constructor.prototype; this.constructor = Constructor;
 3. 如果 Constructor 内 return 的不是对象、数组或函数，则 return this.
 4. 如果 Constructor 内没有 return, 则 return this.
 
@@ -50,22 +50,22 @@ Constructor:
 
 ```js
 function Foo(who) {
-	this.me = who; // con: 无法保护属性不被更改
+  this.me = who; // con: 无法保护属性不被更改
 }
 
 Foo.prototype.identify = function() {
-	return "I am " + this.me;
+  return "I am " + this.me;
 };
 
 function Bar(who) {
-	Foo.call(this, "Bar:" + who);
+  Foo.call(this, "Bar:" + who);
 }
 
 Bar.prototype = Object.create(Foo.prototype);
-Bar.prototype.constructor = Bar;  // "fixes" the delegated `constructor` reference
+Bar.prototype.constructor = Bar; // "fixes" the delegated `constructor` reference
 
 Bar.prototype.speak = function() {
-	console.log("Hello, " + this.identify() + ".");
+  console.log("Hello, " + this.identify() + ".");
 };
 
 const b1 = new Bar("b1");
@@ -87,27 +87,27 @@ OLOO (objects linked to other objects):
 
 ```js
 const Foo = {
-	Foo(who) {
-		this.me = who;
-		return this;
-	},
-	identify() {
-		return "I am " + this.me;
-	}
+  Foo(who) {
+    this.me = who;
+    return this;
+  },
+  identify() {
+    return "I am " + this.me;
+  }
 };
 
 const Bar = Object.create(Foo);
 
 Bar.Bar = function(who) {
-	// "constructors" (aka "initializers") are now in the `[[Prototype]]` chain,
-	// so `this.Foo(..)` works easily w/o any problems of relative-polymorphism
-	// or .call(this,..) awkwardness of the implicit "mixin" pattern
-	this.Foo("Bar:" + who);
-	return this;
+  // "constructors" (aka "initializers") are now in the `[[Prototype]]` chain,
+  // so `this.Foo(..)` works easily w/o any problems of relative-polymorphism
+  // or .call(this,..) awkwardness of the implicit "mixin" pattern
+  this.Foo("Bar:" + who);
+  return this;
 };
 
 Bar.speak = function() {
-	console.log("Hello, " + this.identify() + ".");
+  console.log("Hello, " + this.identify() + ".");
 };
 
 const b1 = Object.create(Bar).Bar("b1");
@@ -125,15 +125,21 @@ Object.getPrototypeOf(Bar) === Foo; // true
 Multi-level initialization:
 
 ```js
-Foo.setupIdentity = function(who) { this.me = who; };
+Foo.setupIdentity = function(who) {
+  this.me = who;
+};
 //..
-Bar.setupOutputPrefs = function(prefs) { /* .. */ };
+Bar.setupOutputPrefs = function(prefs) {
+  /* .. */
+};
 Bar.init = function(who, prefs) {
   this.setupIdentity(who);
   this.setupOutputPrefs(prefs);
 };
 //..
-const b1 = Object.create(Bar).init("b1", { /*..*/ });
+const b1 = Object.create(Bar).init("b1", {
+  /*..*/
+});
 ```
 
 Object.create:
