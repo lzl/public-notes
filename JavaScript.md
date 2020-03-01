@@ -187,3 +187,37 @@ CommonJS, 同步的，适用于服务器。
 
 - https://addyosmani.com/writing-modular-js/
 - https://tylermcginnis.com/javascript-modules-iifes-commonjs-esmodules/
+
+## IIFE, Immediately Invoked Function Expressions
+
+立即执行函数。函数内的变量不会暴露到全局作用域。
+
+```js
+(function() {})()
+(function() {}())
+(() => ())()
+```
+
+The Module Pattern:
+
+```js
+const Counter = (() => {
+  let counter = 0;
+
+  return {
+    increment() {
+      return counter++;
+    },
+    reset() {
+      console.log("counter value prior to reset: " + counter);
+      counter = 0;
+    }
+  };
+})();
+
+// Increment our counter
+Counter.increment();
+// Check the counter value and reset
+// Outputs: counter value prior to reset: 1
+Counter.reset();
+```
