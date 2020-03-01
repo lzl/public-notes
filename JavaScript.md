@@ -221,3 +221,60 @@ Counter.increment();
 // Outputs: counter value prior to reset: 1
 Counter.reset();
 ```
+
+## What is a closure, and how/why would you use one?
+
+闭包是函数和声明该函数的词法环境的组合。
+
+利用闭包实现数据私有化或模拟私有方法。常用于模块模式 module pattern, 部分参数函数 partial application, 柯里化 currying.
+
+Partial Application: takes a function with multiple parameters and returns a function with fewer parameters.
+
+Curry: A function that takes a function with multiple parameters as input and returns a function with exactly one parameter.
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+- https://medium.com/javascript-scene/curry-or-partial-application-8150044c78b8
+
+## What is curry, and how to implement it?
+
+Currying is a transformation of functions that translates a function from callable as f(a, b, c) into callable as f(a)(b)(c).
+
+```js
+function curry(func) {
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function(...args2) {
+        return curried.apply(this, args.concat(args2));
+      };
+    }
+  };
+}
+```
+
+Use case:
+
+1. bind
+1. react-redux's connect
+1. event handling
+
+Curry as Higher Order Function:
+
+```js
+curry = f => a => b => f(a, b);
+uncurry = f => (a, b) => f(a)(b);
+papply = (f, a) => b => f(a, b);
+```
+
+Infinite curry:
+
+```js
+const infiniteCurry = f => {
+  const curry = a => b => (b === undefined ? a : curry(f(a, b)));
+  return curry;
+};
+```
+
+- https://blog.benestudio.co/currying-in-javascript-es6-540d2ad09400
+- https://github.com/thomaslule/infinite-curry
