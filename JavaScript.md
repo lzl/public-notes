@@ -193,9 +193,8 @@ CommonJS, 同步的，适用于服务器。
 立即执行函数。函数内的变量不会暴露到全局作用域。
 
 ```js
-(function() {})()
-(function() {}())
-(() => ())()
+(function() {})();
+(() => {})();
 ```
 
 The Module Pattern:
@@ -278,3 +277,77 @@ const infiniteCurry = f => {
 
 - https://blog.benestudio.co/currying-in-javascript-es6-540d2ad09400
 - https://github.com/thomaslule/infinite-curry
+
+## What's a typical use case for anonymous functions?
+
+1. IIFEs. `(() => {})()`
+1. A callback used only one. `setTimeout(() => {}, 1000)`
+1. Arguments to functional programming. `[1, 2, 3].map(el => el * 2)`
+
+## How do you organize your code? (module pattern, classical inheritance?)
+
+1. single-directional data flow
+1. models as plain objects, manipulate with pure functions
+1. state is manipulated using actions and reducers
+
+- https://medium.com/@dan_abramov/how-to-use-classes-and-sleep-at-night-9af8de78ccb4
+- https://github.com/petsel/not-awesome-es6-classes
+
+## Factory functions
+
+Functions create and return objects.
+
+```js
+const dog = () => {
+  const sound = "woof";
+
+  return {
+    talk: () => console.log(sound)
+  };
+};
+const sniffles = dog();
+sniffles.talk(); // "woof"
+```
+
+- https://www.youtube.com/watch?v=ImwrezYhw4w
+
+## What's the difference between host objects and native objects?
+
+原生对象是由 ECMAScript 规范定义的 JavaScript 内置对象，比如 String、Math、RegExp、Object、Function 等等。
+
+宿主对象是由运行时环境（浏览器或 Node）提供，比如 window, documents, location, XMLHTTPRequest, querySelectorAll 等等。
+
+## Explain Ajax in as much detail as possible.
+
+Ajax, asynchronous JavaScript and XML 是创建异步 Web 应用的一种开发技术。将数据交换层与表示层分离，无需重新加载整个页面，动态更改页面内容。
+
+## What are the advantages and disadvantages of using Ajax?
+
+优势：更好的交互性。脚本和样式只需要被请求一次。在一个页面上维护状态。
+
+劣势：不方便加入书签。有可能 JavaScript 会被禁用。有的爬虫看不到内容，影响网站 SEO 排名。会有更多的 JavaScript 在浏览器中被解析和执行，对机器性能有要求。
+
+## Explain how JSONP works (and how it's not really Ajax).
+
+JSONP, JSON with Padding 通常用于绕过 Web 浏览器中的跨域限制。
+
+现如今，跨来源资源共享（CORS） 是推荐的主流方式，JSONP 已被视为一种比较 hack 的方式。
+
+- https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+
+## Describe event bubbling.
+
+当一个事件在 DOM 元素上触发时，如果有事件监听器，它将尝试处理该事件，然后事件冒泡到其父级元素，并发生同样的事情。最后直到事件到达祖先元素。事件冒泡是实现事件委托 event delegation 的原理。
+
+## What's the difference between an "attribute" and a "property"?
+
+Attribute 是在 HTML 中定义的，而 property 是在 DOM 上定义的。
+
+## Explain the same-origin policy with regards to JavaScript.
+
+同源策略可防止 JavaScript 发起跨域请求。源被定义为协议、主机名和端口号的组合。此策略可防止页面上的恶意脚本通过该页面的文档对象模型，访问另一个网页上的敏感数据。
+
+Generally, embedding a cross-origin resource is permitted, while reading a cross-origin resource is blocked.
+
+- https://web.dev/same-origin-policy/
+- https://web.dev/cross-origin-resource-sharing/
