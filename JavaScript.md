@@ -176,3 +176,14 @@ Avoid side effects. Any application state change that is observable outside the 
 - https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0
 - https://www.freecodecamp.org/news/functional-programming-principles-in-javascript-1b8fc6c3563f/
 - https://hackernoon.com/two-years-of-functional-programming-in-javascript-lessons-learned-1851667c726
+
+## AMD vs CommonJS
+
+它们都是实现模块体系的方式。
+
+AMD, Asynchronous Module Definition, 异步的，适用于浏览器。
+
+CommonJS, 同步的，适用于服务器。
+
+- https://addyosmani.com/writing-modular-js/
+- https://tylermcginnis.com/javascript-modules-iifes-commonjs-esmodules/
