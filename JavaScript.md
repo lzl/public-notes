@@ -50,7 +50,6 @@ Constructor:
 
 ```js
 function Foo(who) {
-	this.me = who;
 	this.me = who; // con: 无法保护属性不被更改
 }
 
@@ -121,6 +120,20 @@ Foo.isPrototypeOf(b1); // true
 Foo.isPrototypeOf(Bar); // true
 Object.getPrototypeOf(b1) === Bar; // true
 Object.getPrototypeOf(Bar) === Foo; // true
+```
+
+Multi-level initialization:
+
+```js
+Foo.setupIdentity = function(who) { this.me = who; };
+//..
+Bar.setupOutputPrefs = function(prefs) { /* .. */ };
+Bar.init = function(who, prefs) {
+  this.setupIdentity(who);
+  this.setupOutputPrefs(prefs);
+};
+//..
+const b1 = Object.create(Bar).init("b1", { /*..*/ });
 ```
 
 Object.create:
