@@ -14,15 +14,15 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Logseq Publish
-        uses: pengx17/logseq-publish@0.1.0
+        uses: pengx17/logseq-publish@0.1.5
         with:
           dest: www
 
       - name: Add .nojekyll file
         run: touch www/.nojekyll
 
-      - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@4.1.9
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.2.2
         with:
           branch: gh-pages
           folder: www
